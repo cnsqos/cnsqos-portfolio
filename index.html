@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cnsqos portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080b12;
+    --surface: #0e1420;
+    --surface2: #131825;
+    --border: rgba(255,255,255,0.07);
+    --accent: #6ee7f7;
+    --accent2: #a78bfa;
+    --accent3: #f472b6;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --grad: linear-gradient(135deg, #6ee7f7, #a78bfa, #f472b6);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(110,231,247,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(110,231,247,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  .orb1 { width: 600px; height: 600px; background: #6ee7f7; top: -200px; right: -150px; animation-delay: 0s; }
+  .orb2 { width: 500px; height: 500px; background: #a78bfa; bottom: -100px; left: -100px; animation-delay: -4s; }
+  .orb3 { width: 400px; height: 400px; background: #f472b6; top: 40%; left: 40%; animation-delay: -8s; }
+
+  @keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(30px, -30px) scale(1.08); }
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(8,11,18,0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.3rem;
+    background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 0.9rem; letter-spacing: 0.05em;
+    transition: color 0.3s; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+    background: var(--accent); transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+
+  section { position: relative; z-index: 1; }
+
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 4rem 4rem;
+    gap: 4rem;
+  }
+  .hero-content { flex: 1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.4rem 1rem; border-radius: 999px;
+    border: 1px solid rgba(110,231,247,0.3);
+    background: rgba(110,231,247,0.05);
+    font-size: 0.8rem; color: var(--accent); letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 800; line-height: 1.05;
+    margin-bottom: 0.5rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-name span {
+    background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero-role { font-size: 1.3rem; color: var(--muted); margin-bottom: 1.5rem; animation: fadeUp 0.8s 0.2s ease both; }
+  .hero-desc { font-size: 1rem; color: #94a3b8; max-width: 540px; line-height: 1.8; margin-bottom: 2.5rem; animation: fadeUp 0.8s 0.3s ease both; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.8s 0.4s ease both; }
+
+  .btn-primary {
+    padding: 0.85rem 2rem; border-radius: 8px;
+    background: var(--grad); color: #000; font-weight: 700; font-size: 0.95rem;
+    border: none; cursor: pointer; text-decoration: none;
+    transition: opacity 0.3s, transform 0.3s; display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+
+  .btn-outline {
+    padding: 0.85rem 2rem; border-radius: 8px;
+    background: transparent; color: var(--text); font-weight: 600; font-size: 0.95rem;
+    border: 1px solid var(--border); cursor: pointer; text-decoration: none;
+    transition: border-color 0.3s, transform 0.3s; display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  .hero-photo-wrap { flex-shrink: 0; animation: fadeUp 0.8s 0.2s ease both; }
+  .photo-frame {
+    width: 280px; height: 280px; border-radius: 24px;
+    background: var(--surface2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; cursor: pointer;
+  }
+  .photo-frame::before {
+    content: ''; position: absolute; inset: -2px; border-radius: 26px;
+    background: var(--grad); z-index: -1; opacity: 0.6;
+  }
+  .photo-placeholder {
+    display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+    color: var(--muted); font-size: 0.85rem; text-align: center; padding: 1rem;
+  }
+  .photo-placeholder svg { opacity: 0.4; }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: none; }
+  #photoInput { display: none; }
+  .photo-hint { font-size: 0.75rem; color: var(--muted); margin-top: 0.5rem; text-align: center; }
+
+  .contact-chips { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; animation: fadeUp 0.8s 0.5s ease both; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.45rem 0.9rem; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--surface);
+    font-size: 0.82rem; color: var(--muted); text-decoration: none;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .chip:hover { border-color: var(--accent2); color: var(--accent2); }
+  .chip svg { width: 14px; height: 14px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-inner { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
+  .section-label { font-size: 0.75rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.8rem; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 1rem; }
+  .section-title span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-desc { color: #94a3b8; max-width: 540px; margin-bottom: 3rem; }
+
+  #skills { background: var(--surface); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+  .skill-category {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 16px;
+    padding: 1.5rem; transition: border-color 0.3s, transform 0.3s;
+  }
+  .skill-category:hover { border-color: rgba(110,231,247,0.3); transform: translateY(-4px); }
+  .skill-cat-title { font-family: 'Syne', sans-serif; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; font-size: 1rem; }
+  .cat-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag { padding: 0.3rem 0.8rem; border-radius: 6px; background: rgba(255,255,255,0.05); font-size: 0.8rem; color: var(--text); border: 1px solid var(--border); }
+
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+  .project-card {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 16px;
+    overflow: hidden; transition: border-color 0.3s, transform 0.3s; display: flex; flex-direction: column;
+  }
+  .project-card:hover { border-color: rgba(167,139,250,0.4); transform: translateY(-6px); }
+  .project-thumb {
+    height: 160px;
+    background: linear-gradient(135deg, rgba(110,231,247,0.1), rgba(167,139,250,0.1));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; color: var(--muted); border-bottom: 1px solid var(--border);
+  }
+  .project-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
+  .project-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
+  .project-desc { color: #94a3b8; font-size: 0.88rem; line-height: 1.7; flex: 1; margin-bottom: 1rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+  .project-tag { padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; background: rgba(110,231,247,0.1); color: var(--accent); border: 1px solid rgba(110,231,247,0.2); }
+  .project-links { display: flex; gap: 0.8rem; }
+  .project-link { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+  .project-link:hover { color: var(--accent); }
+
+  #about { background: var(--surface); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .stat-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem; text-align: center; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .contact-item {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 16px;
+    padding: 1.8rem; display: flex; align-items: center; gap: 1.2rem;
+    text-decoration: none; color: var(--text); transition: border-color 0.3s, transform 0.3s;
+  }
+  .contact-item:hover { border-color: rgba(244,114,182,0.4); transform: translateY(-4px); }
+  .contact-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+  .contact-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.2rem; }
+  .contact-value { font-weight: 600; font-size: 0.95rem; }
+
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); position: relative; z-index: 1; }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* [contenteditable] { outline: none; }
+  [contenteditable]:hover { outline: 1px dashed rgba(110,231,247,0.3); border-radius: 4px; }
+  [contenteditable]:focus { outline: 1px solid var(--accent); border-radius: 4px; } */
+  .edit-hint {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 0.7rem 1.2rem; font-size: 0.8rem; color: var(--muted);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero { flex-direction: column-reverse; padding: 7rem 1.5rem 3rem; gap: 2rem; }
+    .hero-photo-wrap { align-self: center; }
+    .photo-frame { width: 200px; height: 200px; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .section-inner { padding: 3rem 1.5rem; }
+  }
+
+  .fixed-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
+  }
+
+
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<nav>
+  <div class="nav-logo">cnsqos.PORT</div>
+  <ul class="nav-links">
+    <li><a href="#hero">홈</a></li>
+    <li><a href="#skills">기술스택</a></li>
+    <li><a href="#projects">프로젝트</a></li>
+    <li><a href="#about">소개</a></li>
+    <li><a href="#contact">연락처</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-badge">✦ Available for opportunities</div>
+    <h1 class="hero-name">
+      안녕하세요,<br><span contenteditable="false" spellcheck="false">cnsqo</span>입니다
+    </h1>
+    <p class="hero-role" contenteditable="false" spellcheck="false">Full Stack Developer · 풀스택 개발자</p>
+    <p class="hero-desc" contenteditable="false" spellcheck="false">사용자 경험을 최우선으로 생각하는 개발자입니다. 아이디어를 현실로 구현하는 것에 열정을 가지고 있으며, 꾸준히 성장하는 것을 목표로 합니다.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">프로젝트 보기</a>
+      <a href="#contact" class="btn-outline">연락하기</a>
+    </div>
+    <div class="contact-chips">
+      <a href="https://github.com/cnsqos" class="chip" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        <span contenteditable="false" spellcheck="false">github.com/cnsqos</span>
+      </a>
+      <a href="mailto:your@email.com" class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <span contenteditable="false" spellcheck="false">cnsqo0815@gmail.com</span>
+      </a>
+    </div>
+  </div>
+  <!-- onclick="document.getElementById('photoInput').click()"> -->
+  <div class="hero-photo-wrap">
+    <div class="photo-frame">
+      <div class="photo-placeholder" id="photoPlaceholder">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </div>
+      <img id="profilePhoto" src="" alt="Profile">
+    </div>
+  </div>
+
+  <!-- <div class="hero-photo-wrap">
+    <div class="photo-frame">
+      <img src="c:\Users\admin\Downloads\pngwing.com.png" alt="Profile" class="fixed-photo">
+    </div>
+    <p class="photo-hint">프로필 사진</p>
+  </div> -->
+</section>
+
+<section id="skills">
+  <div class="section-inner">
+    <p class="section-label reveal">기술 스택</p>
+    <h2 class="section-title reveal"><span>Tech</span> Stack</h2>
+    <p class="section-desc reveal">다양한 기술을 활용하여 효율적이고 확장 가능한 솔루션을 만들어냅니다.</p>
+    <div class="skills-grid">
+      <div class="skill-category reveal">
+        <div class="skill-cat-title"><div class="cat-dot" style="background:#6ee7f7"></div>프론트엔드</div>
+        <div class="tags" id="fe-tags">
+          <span class="tag" contenteditable="false">React</span>
+          <span class="tag" contenteditable="false">Next.js</span>
+          <span class="tag" contenteditable="false">TypeScript</span>
+          <span class="tag" contenteditable="false">javascript</span>
+          <span class="tag" contenteditable="false">CSS</span>
+        </div>
+        <!-- <button class="add-tag-btn" onclick="addTag('fe-tags')" style="margin-top:0.8rem;background:none;border:1px dashed var(--border);color:var(--muted);padding:0.25rem 0.7rem;border-radius:6px;cursor:pointer;font-size:0.8rem;">+ 추가</button> -->
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title"><div class="cat-dot" style="background:#a78bfa"></div>백엔드</div>
+        <div class="tags" id="be-tags">
+          <span class="tag" contenteditable="false">Node.js</span>
+          <span class="tag" contenteditable="false">Spring Boot</span>
+          <span class="tag" contenteditable="false">Python</span>
+        </div>
+        <!-- <button class="add-tag-btn" onclick="addTag('be-tags')" style="margin-top:0.8rem;background:none;border:1px dashed var(--border);color:var(--muted);padding:0.25rem 0.7rem;border-radius:6px;cursor:pointer;font-size:0.8rem;">+ 추가</button> -->
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title"><div class="cat-dot" style="background:#f472b6"></div>데이터베이스 & 인프라</div>
+        <div class="tags" id="db-tags">
+          <span class="tag" contenteditable="false">MySQL</span>
+        </div>
+        <!-- <button class="add-tag-btn" onclick="addTag('db-tags')" style="margin-top:0.8rem;background:none;border:1px dashed var(--border);color:var(--muted);padding:0.25rem 0.7rem;border-radius:6px;cursor:pointer;font-size:0.8rem;">+ 추가</button> -->
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title"><div class="cat-dot" style="background:#fbbf24"></div>도구 & 협업</div>
+        <div class="tags" id="tools-tags">
+          <span class="tag" contenteditable="false">Git</span>
+          <span class="tag" contenteditable="false">GitHub</span>
+          <span class="tag" contenteditable="false">Figma</span>
+          <span class="tag" contenteditable="false">Notion</span>
+        </div>
+        <!-- <button class="add-tag-btn" onclick="addTag('tools-tags')" style="margin-top:0.8rem;background:none;border:1px dashed var(--border);color:var(--muted);padding:0.25rem 0.7rem;border-radius:6px;cursor:pointer;font-size:0.8rem;">+ 추가</button> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-inner">
+    <p class="section-label reveal">프로젝트</p>
+    <h2 class="section-title reveal">주요 <span>Projects</span></h2>
+    <p class="section-desc reveal">직접 기획하고 개발한 프로젝트들을 소개합니다.</p>
+    <div class="projects-grid" id="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-thumb">🛒</div>
+        <div class="project-body">
+          <div class="project-name" contenteditable="false">상품 추천 챗봇</div>
+          <p class="project-desc" contenteditable="false">AI 기반 조건 해석형 상품 추천 백엔드 시스템 입니다.</p>
+          <div class="project-tags">
+            <span class="project-tag" contenteditable="false">Html</span>
+            <span class="project-tag" contenteditable="false">javascript</span>
+            <span class="project-tag" contenteditable="false">Open Ai Api</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yeon02204/recommendation-backend" class="project-link" contenteditable="false">↗ GitHub</a>
+            <a href="https://recommendation-backend-production.up.railway.app/index.html" class="project-link" contenteditable="false">🔗 Demo</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-thumb">💬</div>
+        <div class="project-body">
+          <div class="project-name" contenteditable="false">비밀 프로젝트</div>
+          <p class="project-desc" contenteditable="false">진행중</p>
+          <div class="project-tags">
+            <span class="project-tag" contenteditable="false">React</span>
+            <span class="project-tag" contenteditable="false">Next.js</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link" contenteditable="false">↗ GitHub</a>
+            <a href="#" class="project-link" contenteditable="false">🔗 Demo</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-thumb">📊</div>
+        <div class="project-body">
+          <div class="project-name" contenteditable="false">비밀 프로젝트 2</div>
+          <p class="project-desc" contenteditable="false">진행중</p>
+          <div class="project-tags">
+            <!-- <span class="project-tag" contenteditable="false">Next.js</span>
+            <span class="project-tag" contenteditable="false">D3.js</span> -->
+            
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link" contenteditable="false">↗ GitHub</a>
+            <a href="#" class="project-link" contenteditable="false">🔗 Demo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div style="text-align:center;margin-top:2rem;">
+      <button onclick="addProject()" class="btn-outline" style="font-size:0.9rem;">+ 프로젝트 추가</button>
+    </div> -->
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="section-label reveal">자기소개</p>
+        <h2 class="section-title reveal">About <span>Me</span></h2>
+        <p contenteditable="false" spellcheck="false" class="reveal" style="color:#94a3b8;line-height:1.9;margin-bottom:1rem;">안녕하세요! 저는 사용자 중심의 서비스를 개발하는 것을 즐기는 풀스택 개발자입니다.</p>
+        <p contenteditable="false" spellcheck="false" class="reveal" style="color:#94a3b8;line-height:1.9;margin-bottom:1rem;">복잡한 문제를 단순하고 해결하는 것에 가장 큰 보람을 느낍니다. 항상 새로운 기술을 탐구하며 성장하고 있습니다.</p>
+        <p contenteditable="false" spellcheck="false" class="reveal" style="color:#94a3b8;line-height:1.9;">현재는 개발 및 자격증 공부를 통해 임팩트 있는 서비스를 만들어가는 데 관심이 있습니다.</p>
+      </div>
+      <div class="reveal">
+        <div class="about-stats">
+          <div class="stat-card"><div class="stat-num" contenteditable="false">1+</div><div class="stat-label">년 경력</div></div>
+          <div class="stat-card"><div class="stat-num" contenteditable="false">3+</div><div class="stat-label">완성 프로젝트</div></div>
+          <div class="stat-card"><div class="stat-num" contenteditable="false">5+</div><div class="stat-label">기술 스택</div></div>
+          <div class="stat-card"><div class="stat-num" contenteditable="false">100%</div><div class="stat-label">열정</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label reveal">연락처</p>
+    <h2 class="section-title reveal">Get in <span>Touch</span></h2>
+    <p class="section-desc reveal">새로운 기회나 협업에 대해 이야기 나누고 싶으시면 편하게 연락주세요!</p>
+    <div class="contact-grid reveal">
+      <a href="https://github.com/your-username" class="contact-item" target="_blank">
+        <div class="contact-icon" style="background:rgba(110,231,247,0.1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#6ee7f7"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        </div>
+        <div><div class="contact-label">GitHub</div><div class="contact-value" contenteditable="false">github.com/cnsqo</div></div>
+      </a>
+      <a href="mailto:your@email.com" class="contact-item">
+        <div class="contact-icon" style="background:rgba(167,139,250,0.1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </div>
+        <div><div class="contact-label">이메일</div><div class="contact-value" contenteditable="false">cnsqo0815@gmail.com</div></div>
+      </a>
+      <!-- <a href="https://linkedin.com/in/your-profile" class="contact-item" target="_blank">
+        <div class="contact-icon" style="background:rgba(244,114,182,0.1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#f472b6"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </div>
+        <div><div class="contact-label">LinkedIn</div><div class="contact-value" contenteditable="false">linkedin.com/in/your-profile</div></div>
+      </a> -->
+
+      <a href="https://www.notion.so/Notion-2f80c6dbcce9804ea0f4ca27fc5d164f" class="contact-item" target="_blank">
+        <div class="contact-icon" style="background:rgba(244,114,182,0.1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#f472b6" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466l1.823 1.447zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.047.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.934zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.14c-.093-.514.28-.887.747-.933l3.222-.187z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="contact-label">Notion</div>
+          <div class="contact-value" contenteditable="false">notion.so/cnsqo</div>
+        </div>
+      </a>
+
+      <a href="https://velog.io/@cnsqo/posts" class="contact-item" target="_blank">
+        <div class="contact-icon" style="background:rgba(251,191,36,0.1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div><div class="contact-label">Velog</div><div class="contact-value" contenteditable="false">https://velog.io/@cnsqo/posts</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 <span contenteditable="false">cnsqo</span>. Crafted with passion ✦</p>
+</footer>
+
+<!-- <div class="edit-hint">✏️ 텍스트를 클릭하면 바로 수정 가능합니다</div> -->
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => io.observe(r));
+
+  document.getElementById('photoInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = document.getElementById('profilePhoto');
+      img.src = ev.target.result;
+      img.style.display = 'block';
+      document.getElementById('photoPlaceholder').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function addTag(containerId) {
+    const container = document.getElementById(containerId);
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.contentEditable = 'false';
+    tag.textContent = '새 기술';
+    container.appendChild(tag);
+    tag.focus();
+    const range = document.createRange();
+    range.selectNodeContents(tag);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+  }
+
+  function addProject() {
+    const grid = document.getElementById('projects-grid');
+    const card = document.createElement('div');
+    card.className = 'project-card reveal visible';
+    card.innerHTML = `
+      <div class="project-thumb" contenteditable="false">🚀</div>
+      <div class="project-body">
+        <div class="project-name" contenteditable="false">새 프로젝트</div>
+        <p class="project-desc" contenteditable="false">프로젝트 설명을 입력하세요.</p>
+        <div class="project-tags"><span class="project-tag" contenteditable="false">기술스택</span></div>
+        <div class="project-links">
+          <a href="#" class="project-link" contenteditable="false">↗ GitHub</a>
+          <a href="#" class="project-link" contenteditable="false">🔗 Demo</a>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if(window.scrollY >= s.offsetTop - 200) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#'+current ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
